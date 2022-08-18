@@ -1,24 +1,58 @@
+let allBoardTask = [];
 /**
  * load data from backend.
  * 
  */
 async function loadBacklog() {
     await downloadFromServer();
+    loadAllTask();
     loadTaskToBacklog();
 }
 
+
+async function boardPushFunction(id) {
+    await allTaskPushToAllBoardTask();
+    await deleteTaskOnBacklog(id);
+    await saveUserOnTheBord();
+    openBoard();
+}
+
+
+function openBoard() {
+    window.location.replace('board.html');
+}
+
+
+async function allTaskPushToAllBoardTask() {
+    allBoardTask.push(allTask);
+    await backend.setItem('allBoardTask', JSON.stringify(allBoardTask));
+}
+
+
+async function deleteTaskOnBacklog(id) {
+    let deleteTask = allTask.findIndex(obj => obj.createdAt == id);
+    allTask.splice(deleteTask, 1);
+    await backend.deleteItem('task');
+    saveTicketsOnBacklog();
+}
+
+
+async function saveTicketsOnBacklog() {
+    await backend.setItem('task', JSON.stringify(allTask));
+}
+
+
 /**
  * loads data from each single task and renders a single box for each.
- * 
+ *  
  */
-function loadTaskToBacklog() {
+ function loadTaskToBacklog() {
     let backlog = document.getElementById('bl-content');
     backlog.innerHTML = '';
-    if (allTask.length > 0) {
-        allTask.slice().reverse().forEach((task, i) => {
-            backlog.innerHTML += renderBacklogTask(task, i);
-            setCategoryColor(task, i);
-        });
+    for (let i = 0; i < allTask.length; i++) {
+        let task = allTask[i];
+        backlog.innerHTML += renderBacklogTask(task, i);
+        setCategoryColor(task, i);
     }
 }
 
@@ -32,13 +66,13 @@ function loadTaskToBacklog() {
 function setCategoryColor(task, i) {
     background = document.getElementById(`bl-category${i}`);
     if (task.categorie == 'Product') {
-        background.classList.add('Product')
+        background.classList.add('Product');
     }
     if (task.categorie == 'Marketing') {
-        background.classList.add('Marketing')
+        background.classList.add('Marketing');
     }
     if (task.categorie == 'Sale') {
-        background.classList.add('Sale')
+        background.classList.add('Sale');
     }
 }
 
@@ -58,16 +92,28 @@ function renderBacklogTask(task, i) {
                 <div class="col-md-4 bl-w-50 d-flex align-items-center">
                     <div class="d-flex align-items-center bl-w-75">
                         <div class="d-flex flex-column w-100">
-                            <span>${task.SelectedEmployee}</span>
-                            <a class="overflow-hidden text-nowrap text-overflow" href="mailto:${task.SelectedEmployeeEmail}">${task.SelectedEmployeeEmail}</a>
+                            <span>
+                                ${task['SelectedEmployee']}
+                            </span>
+                            <b>
+                                E-mail:
+                            </b>
+                            <a class="overflow-hidden text-nowrap text-overflow">
+                                ${task['SelectedEmployeeEmail']}
+                            </a>
                         </div>
                     </div>
                     <div class="d-flex justify-content-center bl-w-25">
-                        <span>${task.categorie}</span>
+                        <span>${task['categorie']}</span>
                     </div>
                 </div>
                 <div class="col-md-8 bl-w-50 rs-mt pl">
-                    <span>${task.description}</span>
+                    <span>
+                        ${task['description']}
+                    </span>
+                        <button onclick="boardPushFunction(${task['createdAt']})">
+                            Delete
+                        </button>
                 </div>
             </div>
         </div>

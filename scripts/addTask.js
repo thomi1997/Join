@@ -90,7 +90,7 @@ async function createdTask() {
 async function addTask(task) {
     await taskPushToAllTask(task);
     blankForm();
-    openBoard();
+    openBacklog();
 }
 
 
@@ -109,8 +109,8 @@ async function taskPushToAllTask(task) {
  * This function redirects you to the board.html after creating a new task.
  * 
  */
-function openBoard() {
-    window.location.replace('board.html');
+function openBacklog() {
+    window.location.replace('backlog.html');
 }
 
 

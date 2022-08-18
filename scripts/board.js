@@ -1,4 +1,4 @@
-setURL('https://gruppe-289.developerakademie.net/Join/smallest_backend_ever');
+setURL('https://thomas-ketler.developerakademie.net/Join/smallest_backend_ever');   /*ftp://f01486b5@thomas-ketler.developerakademie.net/Join*/
 
 
 let currentDraggedElement;
@@ -14,7 +14,7 @@ let currentDraggedElement;
 */
 async function loadBoard() {
     await downloadFromServer();
-    loadAllTask();
+    allBoardTask = JSON.parse(backend.getItem('allBoardTask')) || [];
     loadAllFilter();
 }
 
@@ -38,10 +38,10 @@ async function loadBoard() {
 * 
 */
 function loadAllFilter() {
-    let currentToDo = allTask.filter(t => t['state'] == 'todo');
-    let currenInProgress = allTask.filter(t => t['state'] == 'inProgress');
-    let currentTesting = allTask.filter(t => t['state'] == 'testing');
-    let currentDone = allTask.filter(t => t['state'] == 'done');
+    let currentToDo = allBoardTask.filter(t => t['state'] == 'todo');
+    let currenInProgress = allBoardTask.filter(t => t['state'] == 'inProgress');
+    let currentTesting = allBoardTask.filter(t => t['state'] == 'testing');
+    let currentDone = allBoardTask.filter(t => t['state'] == 'done');
     document.getElementById('todo').innerHTML = '';
     document.getElementById('inProgress').innerHTML = '';
     document.getElementById('testing').innerHTML = '';
@@ -118,9 +118,9 @@ function filterDone(currentDone) {
 * 
 */
 async function deleteTaskOnBoard(i) {
-    let deleteTask = allTask.findIndex(obj => obj.createdAt == i);
-    allTask.splice(deleteTask, 1);
-    await backend.deleteItem('allTask');
+    let deleteTask = allBoardTask.findIndex(obj => obj.createdAt == i);
+    allBoardTask.splice(deleteTask, 1);
+    await backend.deleteItem('allBoardTask');
     loadAllFilter();
     saveUserOnTheBord();
 }
@@ -157,7 +157,7 @@ function trashClose(i, index) {
 *
 */
 function moveto(i) {
-    let array = allTask.find(t => t.createdAt === currentDraggedElement);
+    let array = allBoardTask.find(t => t.createdAt === currentDraggedElement);
     array['state'] = i;
     loadAllFilter();
     saveUserOnTheBord();
@@ -165,7 +165,7 @@ function moveto(i) {
 
 
 async function saveUserOnTheBord() {
-    await backend.setItem('task', JSON.stringify(allTask));
+    await backend.setItem('allBoardTask', JSON.stringify(allBoardTask));
 }
 
 
