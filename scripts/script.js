@@ -316,7 +316,7 @@ function login() {
  * 
  */
 function isLogedIn(decryptUserName, decryptEmail, isAdmin) {
-    window.location.href = "https://thomas-ketler.developerakademie.net/Gruppenarbeit-Join/board.html";
+    window.location.href = "board.html";
     let NewcurrentUser = {
         'name': decryptUserName,
         'email': decryptEmail,
