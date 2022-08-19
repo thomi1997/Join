@@ -17,9 +17,17 @@ form {
 
 .addTask {
     display: flex;
+    align-items: center;
+    justify-content: center;
     border-radius: 10px;
     padding: 1.5rem 1.5rem;
-    height: 90%;
+    height: calc(100% - 110px);
+}
+
+.second-container,
+.first-container {
+    height: 500px;
+    padding: 0 64px;
 }
 
 .mainAddTaskContainer {
@@ -33,8 +41,8 @@ form {
 }
 
 .inputFielder {
-    width: 510px;
-    margin: 30px;
+    width: auto;
+    margin: 30px !important;
 }
 
 .avatar {
@@ -101,46 +109,28 @@ a {
 
 .assignedContainer {
     display: flex;
-    flex-direction: column;
     justify-content: space-around;
+    width: 500px;
+    height: 80px;
 }
 
 textarea {
     resize: both;
     width: 500px;
-    height: 120px;
+    height: 80px;
 }
 
 .buttons {
     display: flex;
+
     justify-content: center;
 }
 
-@media (max-width: 1450px) {
-    .inputFielder {
-        width: 490px;
-        margin: 10px !important;
-    }
-}
-
-@media (max-width: 1249px) {
+@media (max-width: 1349px) {
     .mainAddTaskContainer {
         height: 100% !important;
     }
 
-    textarea {
-        height: 50px;
-    }
-
-    input,
-    select {
-        height: 60px;
-    }
-
-    .assign-to-design {
-        display: flex;
-        justify-content: space-around;
-    }
 }
 
 @media (max-width: 768px) {
@@ -177,6 +167,10 @@ textarea {
     .d-flex {
         display: none;
     }
+
+    .assignedContainer {
+        height: unset;
+    }
 }
 
 @media (max-width: 670px) {
@@ -189,6 +183,15 @@ textarea {
     .all-users-design {
         margin-bottom: 1.5rem;
     }
+
+    .assignedContainer {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .buttons {
+        margin: 30px 0;
+    }
 }
 
 @media (max-width: 530px) {
@@ -197,8 +200,12 @@ textarea {
     }
 }
 
-@media (max-width: 300px) {
+@media (max-width: 350px) {
     .addTask {
         padding: 1.5rem 1rem !important;
+    }
+
+    .inputFielder {
+        margin: 30px 0 !important;
     }
 }

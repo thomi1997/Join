@@ -1,4 +1,4 @@
-setURL('https://thomas-ketler.developerakademie.net/Join/smallest_backend_ever');   /*ftp://f01486b5@thomas-ketler.developerakademie.net/Join*/
+setURL('https://thomas-ketler.developerakademie.net/Join/smallest_backend_ever');
 
 
 let currentDraggedElement;
@@ -69,8 +69,10 @@ function loadAllFilter() {
 function filterTodoTask(currentToDo) {
     for (let i = 0; i < currentToDo.length; i++) {
         let index = currentToDo[i];
+        
         document.getElementById('todo').innerHTML += htmlTicket(i, index);
         trashClose(i, index);
+        console.log(index);
     }
 }
 
@@ -118,6 +120,7 @@ function filterDone(currentDone) {
 * 
 */
 async function deleteTaskOnBoard(i) {
+    showAlert(green, 'This task has been successfully removed.');
     let deleteTask = allBoardTask.findIndex(obj => obj.createdAt == i);
     allBoardTask.splice(deleteTask, 1);
     await backend.deleteItem('allBoardTask');

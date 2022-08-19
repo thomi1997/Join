@@ -13,10 +13,10 @@
     <link rel="stylesheet" href="css/fonts.css">
     <link rel="stylesheet" href="css/board.css">
     <link rel="stylesheet" href="templates/header.css">
-    <script src="/scripts/mini_backend.js"></script>
-    <script src="/scripts/script.js"></script>
-    <script src="/scripts/board.js"></script>
-    <script src="/scripts/addTask.js"></script>
+    <script src="scripts/mini_backend.js"></script>
+    <script src="scripts/script.js"></script>
+    <script src="scripts/board.js"></script>
+    <script src="scripts/addTask.js"></script>
     <script src="templates/includeHTML.js"></script>
     <script src="templates/header.js"></script>
 </head>
@@ -52,7 +52,8 @@
                     </div>
                     <div class="box-frame-top">
                     </div>
-                    <div class="board-content" id="inProgress" ondrop="moveto('inProgress')" ondragover="allowDrop(event)">
+                    <div class="board-content" id="inProgress" ondrop="moveto('inProgress')"
+                        ondragover="allowDrop(event)">
                     </div>
                     <div class="box-frame-bottom">
                     </div>
@@ -92,6 +93,7 @@
             </div>
         </div>
     </div>
+    <p id="alertText" class="d-none">Alert-Text</p>
 </body>
 
 </html>
