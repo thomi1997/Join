@@ -1,5 +1,4 @@
-setURL('https://thomas-ketler.developerakademie.net/Join/smallest_backend_ever');
-
+setURL('https://thomas-ketler.developerakademie.net/Gruppenarbeit-Join/Join/smallest_backend_ever');
 
 let currentDraggedElement;
 

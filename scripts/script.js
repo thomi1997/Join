@@ -1,4 +1,4 @@
-setURL('https://thomas-ketler.developerakademie.net/Join/smallest_backend_ever');
+setURL('https://thomas-ketler.developerakademie.net/Gruppenarbeit-Join/Join/smallest_backend_ever');  /*ftp://f01486b5@thomas-ketler.developerakademie.net/Gruppenarbeit-Join*/
 
 
 let users = [];
@@ -316,7 +316,7 @@ function login() {
  * 
  */
 function isLogedIn(decryptUserName, decryptEmail, isAdmin) {
-    window.location.href = "https://join.pascal-steffen.com/board.html";
+    window.location.href = "https://thomas-ketler.developerakademie.net/Gruppenarbeit-Join/board.html";
     let NewcurrentUser = {
         'name': decryptUserName,
         'email': decryptEmail,
