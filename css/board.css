@@ -75,13 +75,13 @@
 
 .trash-img {
     width: 25px;
-    fill: rgb(206, 206, 206);
+    fill: rgba(30, 49, 144, 0.7);
     transition: all 300ms ease-in-out;
 }
 
 .trash-img:hover {
     cursor: pointer;
-    fill: rgb(185, 182, 182);
+    fill: rgba(30, 49, 144, 1);;
     transform: scale(1.2);
 }
 

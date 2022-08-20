@@ -10,7 +10,7 @@ let allBoardTask = [];
  */
 async function loadBacklog() {
     await downloadFromServer();
-    await loadData();
+    loadAllTask();
     loadTaskToBacklog();
 }
 
@@ -39,8 +39,6 @@ function openBoard() {
 async function allTaskPushToAllBoardTask(i) {
     allBoardTask.push(allTask[i]);
     await saveData();
-    /*await backend.setItem('allBoardTask', JSON.stringify(allBoardTask));*/
-    /*loadBoard();*/
 }
 
 
@@ -52,6 +50,7 @@ async function deleteTaskOnBacklog(i) {
     allTask.splice(i, 1);
     await backend.setItem('task', JSON.stringify(allTask));
     await saveData();
+    loadTaskToBacklog();
 }
 
 
@@ -60,15 +59,8 @@ async function deleteTaskOnBacklog(i) {
  * 
  */
 async function saveData() {
-    await backend.setItem('task', JSON.stringify(allTask));
     await backend.setItem('boardtask', JSON.stringify(allBoardTask));
-    await loadData();
-}
-
-
-async function loadData() {
-    allTask = JSON.parse(backend.getItem('task')) || [];
-    allBoardTask = JSON.parse(backend.getItem('boardtask')) || [];
+    loadAllTask();
 }
 
 
@@ -117,34 +109,48 @@ function setCategoryColor(task, i) {
 function renderBacklogTask(task, i) {
     return /*html*/ `
     <div id="bl-category${i}" class="bl-task-box">
-        <div class="content-bg card border-0 mb-3 px-2 py-3 rounded-end rounded-0">
-            <div class="row g-0 backlog-container">
-                <div class="col-md-4 bl-w-50 d-flex align-items-center">
-                    <div class="d-flex align-items-center bl-w-75">
-                        <div class="d-flex flex-column w-100">
-                            <span>
-                                ${task['SelectedEmployee']}
-                            </span>
-                            <b>
-                                E-mail:
-                            </b>
-                            <a class="overflow-hidden text-nowrap text-overflow">
-                                ${task['SelectedEmployeeEmail']}
-                            </a>
+        <div class="content-bg border-0 mb-3 px-2 py-3 rounded-end rounded-0">
+            <div class="backlog-content-container">
+                <div class="headline-assigned-to-category"> 
+                    <div class="assigned-to">
+                        <span>
+                            ${task['SelectedEmployee']}
+                        </span>
+                        <b>
+                            E-mail:
+                        </b>
+                        <a class="overflow-hidden text-nowrap">
+                            ${task['SelectedEmployeeEmail']}
+                        </a>
+                    </div>
+                    <div class="category-backlog bg-blue">
+                        <span>
+                            ${task['categorie']}
+                        </span>
+                    </div>
+                </div>
+                <div class="details-action">
+                    <div class="word-wrap description-container">
+                        <span>
+                            ${task['description']}
+                        </span>
+                    </div>
+                    <div class="buttonPosition px-2">
+                        <div>
+                            <svg onclick="boardPushFunction(${i})" class="upload-img mr-10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                                <!--! Font Awesome Pro 6.1.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
+                                    <path 
+                                        d="M384 352v64c0 17.67-14.33 32-32 32H96c-17.67 0-32-14.33-32-32v-64c0-17.67-14.33-32-32-32s-32 14.33-32 32v64c0 53.02 42.98 96 96 96h256c53.02 0 96-42.98 96-96v-64c0-17.67-14.33-32-32-32S384 334.3 384 352zM201.4 9.375l-128 128c-12.51 12.51-12.49 32.76 0 45.25c12.5 12.5 32.75 12.5 45.25 0L192 109.3V320c0 17.69 14.31 32 32 32s32-14.31 32-32V109.3l73.38 73.38c12.5 12.5 32.75 12.5 45.25 0s12.5-32.75 0-45.25l-128-128C234.1-3.125 213.9-3.125 201.4 9.375z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <svg onclick="deleteTaskOnBacklog(${i})" class="trash-img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                                <!--! Font Awesome Pro 6.1.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
+                                <path 
+                                    d="M135.2 17.69C140.6 6.848 151.7 0 163.8 0H284.2C296.3 0 307.4 6.848 312.8 17.69L320 32H416C433.7 32 448 46.33 448 64C448 81.67 433.7 96 416 96H32C14.33 96 0 81.67 0 64C0 46.33 14.33 32 32 32H128L135.2 17.69zM394.8 466.1C393.2 492.3 372.3 512 346.9 512H101.1C75.75 512 54.77 492.3 53.19 466.1L31.1 128H416L394.8 466.1z"/>
+                            </svg>
                         </div>
                     </div>
-                    <div class="d-flex justify-content-center bl-w-25">
-                        <span>${task['categorie']}</span>
-                    </div>
-                </div>
-                <div class="col-md-8 bl-w-50 rs-mt ps-3">
-                    <span>
-                        ${task['description']}
-                    </span>
-                </div>
-                <div class="buttonPosition px-2">
-                        <button class="my-1 backlog-btn" onclick="boardPushFunction(${i})">Push to board</button>
-                        <button class="my-1 backlog-btn" onclick="deleteTaskOnBacklog(${i})">Delete</button>
                 </div>
             </div>
         </div>

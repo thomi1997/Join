@@ -14,7 +14,7 @@ let currentDraggedElement;
 */
 async function loadBoard() {
     await downloadFromServer();
-    await loadData();
+    await loadAllTask();
     loadAllFilter();
 }
 

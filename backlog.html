@@ -11,6 +11,7 @@
         integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/fonts.css">
+    <link rel="stylesheet" href="css/backlog.css">
     <link rel="stylesheet" href="templates/header.css">
     <script src="/scripts/mini_backend.js"></script>
     <script src="/scripts/script.js"></script>
@@ -22,27 +23,47 @@
 
 </head>
 
-<body class="d-flex" onload="init(); loadDataBase(); loadBacklog();">
-    <div include-html="templates/header.html" class="header-template"></div>
-    <main class="bl-w-100 pt-4 px-3">
-        <!-- HEADER -->
-        <div class="pb-5">
-            <h2 class="mb-0 fw-bold">Backlog</h2>
-            <span class="primary-text">Learning Management System Project</span>
+<body onload="init(); loadDataBase(); loadBacklog();">
+    <div class="d-flex">
+        <div include-html="templates/header.html" class="header-template">
         </div>
-        <div class="d-flex justify-content-between">
-            <div class="bl-w-50 d-flex">
-                <h3 class="bl-w-75 fs-5 fw-bold primary-text">ASSIGNED TO</h3>
-                <h3 class="bl-w-25 fs-5 fw-bold primary-text d-flex justify-content-center">CATEGORY</h3>
+        <main class="backlog pt-4 px-3">
+            <!-- HEADER -->
+            <div class="pb-5">
+                <h2 class="mb-0 fw-bold">
+                    Backlog
+                </h2>
+                <span class="primary-text">
+                    Learning Management System Project
+                </span>
             </div>
-            <h3 class="h-details w-50 fs-5 fw-bold primary-text d-flex justify-content-center">DETAILS</h3>
-        </div>
-        <!-- MAIN-CONTENT -->
-        <div id="bl-content" style="height: calc(100vh - 166.39px); overflow-y: auto;">
-            <!-- JAVASCRIPT RENDERING -->
-        </div>
-    </main>
-    <p id="alertText" class="d-none">Alert-Text</p>
+            <div class="d-flex justify-content-between padding-lr-15">
+                <div class="headline-assigned-to-category">
+                    <h3 class="h-details fs-5 fw-bold primary-text">
+                        ASSIGNED TO
+                    </h3>
+                    <h3 class="h-details fs-5 fw-bold primary-text">
+                        CATEGORY
+                    </h3>
+                </div>
+                <div class="headline-details-action">
+                    <h3 class="h-details fs-5 fw-bold primary-text">
+                        DETAILS
+                    </h3>
+                    <h3 class="h-details fs-5 fw-bold primary-text">
+                        ACTION
+                    </h3>
+                </div>
+            </div>
+            <!-- MAIN-CONTENT -->
+            <div id="bl-content" style="height: calc(100vh - 166.39px); overflow-y: auto;">
+                <!-- JAVASCRIPT RENDERING -->
+            </div>
+        </main>
+    </div>
+    <p id="alertText" class="d-none">
+        Alert-Text
+    </p>
 </body>
 
 </html>

@@ -1,0 +1,280 @@
+/*Section board.html*/
+
+.backlog {
+    width: calc(100% - 150px);
+}
+
+.primary-text {
+    color: #1E3190;
+}
+
+.padding-lr-15 {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.headline-assigned-to-category { /*Headline und Template*/
+    width: 655px;
+    margin-left: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.headline-details-action {
+    width: 680px;
+    display: flex;
+    justify-content: space-between;
+}
+
+/*Section backlog.js/function renderBacklogTask()*/
+
+.bl-task-box {
+    padding-left: 8px;
+    border-radius: 0.475rem;
+}
+
+.content-bg {
+    background-color: #F4F3FB;
+}
+
+.backlog-content-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.assigned-to {
+    display: flex;
+    flex-direction: column;
+}
+
+.category-backlog {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 30px;
+    width: 100px;
+    border-radius: 5px;
+    color: #F4F3FB;
+    font-weight: 600;
+}
+
+.description-container {
+    width: 600px;
+    margin-right: 10px;
+}
+
+.buttonPosition {
+    display: flex;
+}
+
+.upload-img {
+    width: 25px;
+    fill: rgba(30, 49, 144, 0.7);
+    transition: all 300ms ease-in-out;
+}
+
+.upload-img:hover {
+    cursor: pointer;
+    fill: rgba(30, 49, 144, 1);
+    transform: scale(1.2);
+}
+
+.trash-img {
+    width: 25px;
+    fill: rgba(30, 49, 144, 0.7);
+    transition: all 300ms ease-in-out;
+}
+
+.trash-img:hover {
+    cursor: pointer;
+    fill: rgba(30, 49, 144, 1);
+    transform: scale(1.2);
+}
+
+.details-action {
+    display: flex;
+    align-items: center;
+}
+
+.assigned-to-category {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.bl-w-25 {
+    width: 25%;
+}
+
+.bl-w-50 {
+    width: 50%;
+}
+
+.bl-w-75 {
+    width: 75%;
+}
+
+.bl-w-100 {
+    width: calc(100% - 150px);
+}
+
+.pl {
+    padding-left: 8vw;
+}
+
+@media (max-height: 375px) {
+    
+}
+
+@media (max-width: 1620px) {
+    .headline-assigned-to-category {
+        width: 550px;
+    }
+}
+
+@media (max-width: 1620px) {
+    .headline-assigned-to-category {
+        width: 450px;
+    }
+}
+
+@media (max-width: 1380px) {
+    .headline-assigned-to-category {
+        width: 350px;
+    }
+}
+
+@media (max-width: 1280px) {
+    .headline-assigned-to-category {
+        width: 270px;
+    }
+}
+
+@media (max-width: 1140px) {
+    .headline-assigned-to-category {
+        width: 245px !important;
+    }
+}
+
+@media (max-width: 1200px) {
+
+    .details-action {
+        flex-direction: column;
+    }
+
+    .buttonPosition {
+        margin-top: 10px;
+        align-self: flex-end;
+    }
+
+    .description-container {
+        width: 450px;
+    }
+
+    .headline-details-action {
+        width: 455px;
+    }
+}
+
+@media (max-width: 970px) {
+
+    .description-container {
+        width: 280px;
+    }
+
+    .headline-details-action {
+        width: 285px;
+    }
+
+    .headline-assigned-to-category {
+        width: 270px;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .header-template {
+        width: 0px;
+    }
+
+    .backlog {
+        width: calc(100% - 0px);
+        margin-top: 95px;
+    }
+
+    .backlog-content-container {
+        flex-direction: column;
+    }
+
+    .h-details {
+        display: none !important;
+    }
+
+    .headline-assigned-to-category {
+        width: 500px !important;
+        margin-left: 0px !important;
+    }
+
+    .description-container {
+        width: 500px;
+        margin-right: 0px;
+    }
+
+    .pb-5 {
+        padding-bottom: 1rem !important;
+    }
+}
+
+@media (max-width: 560px) {
+
+    .headline-assigned-to-category {
+        width: 300px !important;
+    }
+
+    .description-container {
+        width: 300px;
+    }
+}
+
+@media (max-width: 370px) {
+
+    .category-backlog {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    .headline-assigned-to-category {
+        width: 250px !important;
+    }
+
+    .description-container {
+        width: 250px;
+    }
+}
+
+@media (max-width: 330px) {
+
+    .headline-assigned-to-category {
+        width: 200px !important;
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .description-container {
+        width: 200px;
+        text-align: center;
+    }
+}
+
+@media (max-width: 270px) {
+
+    .headline-assigned-to-category {
+        width: 150px !important;
+    }
+
+    .description-container {
+        width: 150px;
+    }
+}

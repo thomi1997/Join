@@ -130,4 +130,5 @@ function blankForm() {
  */
 function loadAllTask() {
     allTask = JSON.parse(backend.getItem('task')) || [];
+    allBoardTask = JSON.parse(backend.getItem('boardtask')) || [];
 }
