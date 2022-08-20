@@ -1,5 +1,6 @@
 setURL('https://thomas-ketler.developerakademie.net/Gruppenarbeit-Join/Join/smallest_backend_ever');
 
+
 let currentDraggedElement;
 
 
@@ -13,7 +14,7 @@ let currentDraggedElement;
 */
 async function loadBoard() {
     await downloadFromServer();
-    allBoardTask = JSON.parse(backend.getItem('allBoardTask')) || [];
+    await loadData();
     loadAllFilter();
 }
 
@@ -68,10 +69,8 @@ function loadAllFilter() {
 function filterTodoTask(currentToDo) {
     for (let i = 0; i < currentToDo.length; i++) {
         let index = currentToDo[i];
-        
         document.getElementById('todo').innerHTML += htmlTicket(i, index);
         trashClose(i, index);
-        console.log(index);
     }
 }
 
@@ -122,9 +121,9 @@ async function deleteTaskOnBoard(i) {
     showAlert(green, 'This task has been successfully removed.');
     let deleteTask = allBoardTask.findIndex(obj => obj.createdAt == i);
     allBoardTask.splice(deleteTask, 1);
-    await backend.deleteItem('allBoardTask');
+    await backend.deleteItem('boardtask');
     loadAllFilter();
-    saveUserOnTheBord();
+    saveData();
 }
 
 
@@ -162,12 +161,7 @@ function moveto(i) {
     let array = allBoardTask.find(t => t.createdAt === currentDraggedElement);
     array['state'] = i;
     loadAllFilter();
-    saveUserOnTheBord();
-}
-
-
-async function saveUserOnTheBord() {
-    await backend.setItem('allBoardTask', JSON.stringify(allBoardTask));
+    saveData();
 }
 
 

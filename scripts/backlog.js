@@ -10,7 +10,7 @@ let allBoardTask = [];
  */
 async function loadBacklog() {
     await downloadFromServer();
-    loadAllTask();
+    await loadData();
     loadTaskToBacklog();
 }
 
@@ -22,7 +22,7 @@ async function loadBacklog() {
 async function boardPushFunction(i) {
     await allTaskPushToAllBoardTask(i);
     await deleteTaskOnBacklog(i);
-    await saveUserOnTheBord();
+    await saveData();
     openBoard();
 }
 
@@ -38,7 +38,9 @@ function openBoard() {
  */
 async function allTaskPushToAllBoardTask(i) {
     allBoardTask.push(allTask[i]);
-    await backend.setItem('allBoardTask', JSON.stringify(allBoardTask));
+    await saveData();
+    /*await backend.setItem('allBoardTask', JSON.stringify(allBoardTask));*/
+    /*loadBoard();*/
 }
 
 
@@ -49,8 +51,7 @@ async function allTaskPushToAllBoardTask(i) {
 async function deleteTaskOnBacklog(i) {
     allTask.splice(i, 1);
     await backend.setItem('task', JSON.stringify(allTask));
-    saveTicketsOnBacklog();
-    loadTaskToBacklog();
+    await saveData();
 }
 
 
@@ -58,8 +59,16 @@ async function deleteTaskOnBacklog(i) {
  * saved allTask on the backlog.
  * 
  */
-async function saveTicketsOnBacklog() {
+async function saveData() {
     await backend.setItem('task', JSON.stringify(allTask));
+    await backend.setItem('boardtask', JSON.stringify(allBoardTask));
+    await loadData();
+}
+
+
+async function loadData() {
+    allTask = JSON.parse(backend.getItem('task')) || [];
+    allBoardTask = JSON.parse(backend.getItem('boardtask')) || [];
 }
 
 
