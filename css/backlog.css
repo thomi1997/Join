@@ -124,10 +124,6 @@
     padding-left: 8vw;
 }
 
-@media (max-height: 375px) {
-    
-}
-
 @media (max-width: 1620px) {
     .headline-assigned-to-category {
         width: 550px;
