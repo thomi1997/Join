@@ -1,6 +1,3 @@
-setURL('https://thomas-ketler.developerakademie.net/Gruppenarbeit-Join/Join/smallest_backend_ever');
-
-
 let allBoardTask = [];
 
 
@@ -22,7 +19,7 @@ async function loadBacklog() {
 async function boardPushFunction(i) {
     await allTaskPushToAllBoardTask(i);
     await deleteTaskOnBacklog(i);
-    await saveData();
+    await saveUserOnTheBord();
     openBoard();
 }
 
@@ -38,7 +35,7 @@ function openBoard() {
  */
 async function allTaskPushToAllBoardTask(i) {
     allBoardTask.push(allTask[i]);
-    await saveData();
+    await backend.setItem('allBoardTask', JSON.stringify(allBoardTask));
 }
 
 
@@ -49,7 +46,7 @@ async function allTaskPushToAllBoardTask(i) {
 async function deleteTaskOnBacklog(i) {
     allTask.splice(i, 1);
     await backend.setItem('task', JSON.stringify(allTask));
-    await saveData();
+    saveTicketsOnBacklog();
     loadTaskToBacklog();
 }
 
@@ -58,9 +55,8 @@ async function deleteTaskOnBacklog(i) {
  * saved allTask on the backlog.
  * 
  */
-async function saveData() {
-    await backend.setItem('boardtask', JSON.stringify(allBoardTask));
-    loadAllTask();
+ async function saveTicketsOnBacklog() {
+    await backend.setItem('task', JSON.stringify(allTask));
 }
 
 

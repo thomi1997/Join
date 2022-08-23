@@ -1,4 +1,4 @@
-setURL('https://thomas-ketler.developerakademie.net/Gruppenarbeit-Join/Join/smallest_backend_ever');  /*ftp://f01486b5@thomas-ketler.developerakademie.net/Gruppenarbeit-Join*/
+setURL('https://thomas-ketler.developerakademie.net/Gruppenarbeit-Join/Join/smallest_backend_ever');
 
 
 let users = [];

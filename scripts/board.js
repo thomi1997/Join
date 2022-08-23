@@ -14,7 +14,7 @@ let currentDraggedElement;
 */
 async function loadBoard() {
     await downloadFromServer();
-    await loadAllTask();
+    allBoardTask = JSON.parse(backend.getItem('allBoardTask')) || [];
     loadAllFilter();
 }
 
@@ -123,7 +123,7 @@ async function deleteTaskOnBoard(i) {
     allBoardTask.splice(deleteTask, 1);
     await backend.deleteItem('boardtask');
     loadAllFilter();
-    saveData();
+    saveUserOnTheBord();
 }
 
 
@@ -161,7 +161,12 @@ function moveto(i) {
     let array = allBoardTask.find(t => t.createdAt === currentDraggedElement);
     array['state'] = i;
     loadAllFilter();
-    saveData();
+    saveUserOnTheBord();
+}
+
+
+async function saveUserOnTheBord() {
+    await backend.setItem('allBoardTask', JSON.stringify(allBoardTask));
 }
 
 
