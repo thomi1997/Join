@@ -17,15 +17,16 @@ async function loadBacklog() {
  * @param {number} i 
  */
 async function boardPushFunction(i) {
-    await allTaskPushToAllBoardTask(i);
-    await deleteTaskOnBacklog(i);
-    await saveUserOnTheBord();
+    allTaskPushToAllBoardTask(i);
+    saveUserOnTheBord();
+    saveTicketsOnBacklog();
+    loadTaskToBacklog();
     openBoard();
 }
 
 
 function openBoard() {
-    window.location.href = 'board.html';
+    window.location.href = 'https://thomas-ketler.developerakademie.net/Gruppenarbeit-Join/board.html';
 }
 
 
@@ -33,9 +34,9 @@ function openBoard() {
  * pushed the specific task to the board.
  * @param {number} i 
  */
-async function allTaskPushToAllBoardTask(i) {
+function allTaskPushToAllBoardTask(i) {
     allBoardTask.push(allTask[i]);
-    await backend.setItem('allBoardTask', JSON.stringify(allBoardTask));
+    allTask.splice(i, 1);
 }
 
 
@@ -46,8 +47,7 @@ async function allTaskPushToAllBoardTask(i) {
 async function deleteTaskOnBacklog(i) {
     allTask.splice(i, 1);
     await backend.setItem('task', JSON.stringify(allTask));
-    saveTicketsOnBacklog();
-    loadTaskToBacklog();
+
 }
 
 
@@ -55,8 +55,17 @@ async function deleteTaskOnBacklog(i) {
  * saved allTask on the backlog.
  * 
  */
- async function saveTicketsOnBacklog() {
+async function saveTicketsOnBacklog() {
     await backend.setItem('task', JSON.stringify(allTask));
+}
+
+
+/**
+ * saved allBoardTask on the board.
+ * 
+ */
+async function saveUserOnTheBord() {
+    await backend.setItem('allBoardTask', JSON.stringify(allBoardTask));
 }
 
 
@@ -64,6 +73,8 @@ async function deleteTaskOnBacklog(i) {
  * loads data from each single task and renders a single box for each.
  *  
  */
+
+
 function loadTaskToBacklog() {
     let backlog = document.getElementById('bl-content');
     backlog.innerHTML = '';
@@ -83,15 +94,12 @@ function loadTaskToBacklog() {
  */
 function setCategoryColor(task, i) {
     background = document.getElementById(`bl-category${i}`);
-    if (task.categorie == 'Product') {
+    if (task.categorie == 'Product')
         background.classList.add('Product');
-    }
-    if (task.categorie == 'Marketing') {
+    if (task.categorie == 'Marketing')
         background.classList.add('Marketing');
-    }
-    if (task.categorie == 'Sale') {
+    if (task.categorie == 'Sale')
         background.classList.add('Sale');
-    }
 }
 
 

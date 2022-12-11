@@ -14,7 +14,7 @@ let currentDraggedElement;
 */
 async function loadBoard() {
     await downloadFromServer();
-    allBoardTask = JSON.parse(backend.getItem('allBoardTask')) || [];
+    loadAllTask();
     loadAllFilter();
 }
 
@@ -162,11 +162,6 @@ function moveto(i) {
     array['state'] = i;
     loadAllFilter();
     saveUserOnTheBord();
-}
-
-
-async function saveUserOnTheBord() {
-    await backend.setItem('allBoardTask', JSON.stringify(allBoardTask));
 }
 
 

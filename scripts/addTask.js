@@ -90,7 +90,7 @@ async function createdTask() {
 async function addTask(task) {
     await taskPushToAllTask(task);
     blankForm();
-    openBoard();
+    openBacklog();
 }
 
 
@@ -109,8 +109,8 @@ async function taskPushToAllTask(task) {
  * This function redirects you to the board.html after creating a new task.
  * 
  */
-function openBoard() {
-    window.location.href = "backlog.html";
+function openBacklog() {
+    window.location.href = "https://thomas-ketler.developerakademie.net/Gruppenarbeit-Join/backlog.html";
 }
 
 
@@ -130,5 +130,5 @@ function blankForm() {
  */
 function loadAllTask() {
     allTask = JSON.parse(backend.getItem('task')) || [];
-    allBoardTask = JSON.parse(backend.getItem('boardtask')) || [];
+    allBoardTask = JSON.parse(backend.getItem('allBoardTask')) || [];
 }
