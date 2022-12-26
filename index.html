@@ -33,10 +33,11 @@
                     <img class="eye-img-design" id="hide_eye" src="img/hide.png" alt="">
                 </span>
             </div>
-            <button class="form-floating login-btn-design"><b>Login</b></button>
+            <button class="form-floating login-btn-design mb-3"><b>Login</b></button>
+            <button onclick="isLogedInGast()" class="form-floating login-btn-design"><b>Gast Login</b></button>
             <span id="noUser" class="mb-3 mt-3 d-none ">Your username or password is incorrect.</span>
         </form>
-        <form id="changePasswordScreen" onsubmit="changePassword(); return false;" class="form-design d-none">
+        <form id="changePasswordScreen" onsubmit="changePassword(); return true" class="form-design d-none">
             <div class="form-floating mb-3">
                 <input id="checkUserName" type="text" class="form-control" required>
                 <label for="floatingInput">Username</label>

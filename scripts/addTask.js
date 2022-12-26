@@ -1,6 +1,6 @@
 let allTask = [];
-let SelectedEmployee;
-let SelectedEmployeeEmail;
+let SelectedEmployees = [];
+let SelectedEmployeeEmails = [];
 
 
 /**
@@ -11,7 +11,7 @@ function EmployeePicker() {
     document.getElementById('NameFromEmployess').innerHTML = '';
     for (let i = 0; i < users.length; i++) {
         const user = decrypt('salt', users[i]['name']);
-        document.getElementById('NameFromEmployess').innerHTML += /*html*/ `<li class="employee" id="MA${i}" onclick="SelectEmployee(${i})"> ${user} </li>`;
+        document.getElementById('NameFromEmployess').innerHTML += /*html*/ `<li class="employee" id="MA ${i}" onclick="SelectEmployee('${i}', '${user}')"> ${user} </li>`;
     }
 }
 
@@ -21,34 +21,42 @@ function EmployeePicker() {
  * @param {number} i 
  * 
  */
-function SelectEmployee(i) {
-    ResestSelectedAvatar();
-    deleteSelectEmployee();
-    SelectedEmployee = document.getElementById(`MA${i}`).innerHTML;
-    SelectedEmployeeEmail = decrypt('salt', users[i]['email']);
+function SelectEmployee(i, user) {
+    let SelectedEmployee = user;
+    let SelectedEmployeeEmail = decrypt('salt', users[i]['email']);
+    selectEmployeeQuery(i, SelectedEmployee, SelectedEmployeeEmail);
+    touchesButtonCreateTask();
+    document.getElementById(`MA ${i}`).innerHTML;
+    document.getElementById(`MA ${i}`).classList.toggle('Employee-selected');
+}
+
+
+function touchesButtonCreateTask() {
     document.getElementById('createdButton').disabled = false;
     document.getElementById('createdButton').classList.add('createButtonhover');
-    document.getElementById(`MA${i}`).classList.toggle('Employee-selected');
-}
-
-/**
- * this function resets the information of the selected employee if another one is selected.
- * 
- */
-function deleteSelectEmployee() {
-    SelectedEmployee = '';
-    SelectedEmployeeEmail = '';
 }
 
 
-/**
- * this function resets the design of the selected employee if another one is selected.
- * 
- */
-function ResestSelectedAvatar() {
-    for (let index = 0; index < users.length; index++) {
-        document.getElementById(`MA${index}`).classList.remove('Employee-selected');
+function selectEmployeeQuery(i, SelectedEmployee, SelectedEmployeeEmail) {
+    if (document.getElementById(`MA ${i}`).classList.contains('Employee-selected')) {
+        deleteSelectedEmployees(SelectedEmployee, SelectedEmployeeEmail);
+    } else {
+        pushSelectedEmployees(SelectedEmployee, SelectedEmployeeEmail);
     }
+}
+
+
+function deleteSelectedEmployees(SelectedEmployee, SelectedEmployeeEmail) {
+    SelectedEmployees.splice(SelectedEmployee, 1);
+    SelectedEmployeeEmails.splice(SelectedEmployeeEmail, 1);
+    console.log('delete', SelectedEmployee, SelectedEmployeeEmail);
+}
+
+
+function pushSelectedEmployees(SelectedEmployee, SelectedEmployeeEmail) {
+    SelectedEmployees.push(SelectedEmployee);
+    SelectedEmployeeEmails.push(SelectedEmployeeEmail);
+    console.log('push', SelectedEmployee, SelectedEmployeeEmail);
 }
 
 
@@ -56,7 +64,7 @@ function ResestSelectedAvatar() {
  * this function creates a new task with the specified information
  * 
  */
-async function createdTask() {
+function createdTask() {
     let title = document.getElementById('title').value;
     let date = document.getElementById('date').value;
     let categorie = document.getElementById('categorie').value;
@@ -64,7 +72,11 @@ async function createdTask() {
     let description = document.getElementById('description').value;
     let creator = currentUser[0]['name'];
     let creatorEmail = currentUser[0]['email'];
+    taskBuild(title, date, categorie, prio, description, creator, creatorEmail);
+}
 
+
+async function taskBuild(title, date, categorie, prio, description, creator, creatorEmail) {
     let task = {
         'title': title,
         'date': date,
@@ -75,8 +87,8 @@ async function createdTask() {
         'creatorEmail': creatorEmail,
         'createdAt': new Date().getTime(),
         'state': 'todo',
-        'SelectedEmployee': SelectedEmployee,
-        'SelectedEmployeeEmail': SelectedEmployeeEmail,
+        'SelectedEmployee': SelectedEmployees,
+        'SelectedEmployeeEmail': SelectedEmployeeEmails,
     }
     await addTask(task);
 }

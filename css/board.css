@@ -66,7 +66,7 @@
     margin-bottom: 20px;
     font-size: 18px;
     background-color: white;
-    box-shadow: -2px 0px 6px 0px rgba(0,0,0,0.21);
+    box-shadow: -2px 0px 6px 0px rgba(0, 0, 0, 0.21);
 }
 
 .ticket:hover {
@@ -81,8 +81,17 @@
 
 .trash-img:hover {
     cursor: pointer;
-    fill: rgba(30, 49, 144, 1);;
+    fill: rgba(30, 49, 144, 1);
     transform: scale(1.2);
+}
+
+.select-area {
+    font-weight: bolder;
+    color: rgb(30, 49, 144);
+}
+
+.open-area-icon {
+    display: none;
 }
 
 .section-bottum {
@@ -174,6 +183,50 @@
         flex-direction: column;
         align-items: center;
     }
+
+    .add-areas {
+        width: 76%;
+        height: 85px;
+        background: rgb(113, 149, 254);
+        display: flex;
+        align-items: center;
+        padding-left: 20px;
+        border-radius: 5px;
+    }
+
+    .open-area-icon {
+        display: flex;
+        width: 25px;
+        fill: rgba(30, 49, 144, 0.7);
+        transition: all 300ms ease-in-out;
+    }
+
+    .open-area-icon:hover {
+        cursor: pointer;
+        fill: rgba(30, 49, 144, 1);
+        transform: scale(1.2);
+    }
+
+    .close-area-icon {
+        width: 25px;
+        fill: rgba(30, 49, 144, 0.7);
+        transition: all 300ms ease-in-out;
+    }
+
+    .close-area-icon:hover {
+        cursor: pointer;
+        fill: rgba(30, 49, 144, 1);
+        transform: scale(1.2);
+    }
+
+    .push-section-button {
+        height: 40px;
+        min-width: 100px;
+        margin-right: 20px;
+        border: none;
+        border-radius: 20px;
+        box-shadow: -2px 0px 6px 0px rgb(0 0 0 / 21%);
+    }
 }
 
 @media (max-width: 600px) {
@@ -188,6 +241,12 @@
 
     .board-box {
         width: 300px;
+    }
+
+    .add-areas {
+        width: 100%;
+        display: flex;
+        overflow-y: hidden;
     }
 }
 

@@ -36,7 +36,7 @@ function openBoard() {
  */
 function allTaskPushToAllBoardTask(i) {
     allBoardTask.push(allTask[i]);
-    allTask.splice(i, 1);
+    deleteTaskOnBacklog(i);
 }
 
 
@@ -47,7 +47,7 @@ function allTaskPushToAllBoardTask(i) {
 async function deleteTaskOnBacklog(i) {
     allTask.splice(i, 1);
     await backend.setItem('task', JSON.stringify(allTask));
-
+    loadTaskToBacklog();
 }
 
 
@@ -80,9 +80,45 @@ function loadTaskToBacklog() {
     backlog.innerHTML = '';
     for (let i = 0; i < allTask.length; i++) {
         let task = allTask[i];
+        let mitglieder = task['SelectedEmployee'];
+        let email = task['SelectedEmployeeEmail'];
         backlog.innerHTML += renderBacklogTask(task, i);
+        for (let j = 0; j < mitglieder.length; j++) {
+                document.getElementById(`mitglieder ${task['createdAt']}`).innerHTML += /*html*/ `<div class=""> ${mitglieder[j]} </div>`;
+        }
+        for (let k = 0; k < email.length; k++) {
+            document.getElementById(`email ${task['createdAt']}`).innerHTML += /*html*/ `<div class=""> ${email[k]} </div>`;
+        }
         setCategoryColor(task, i);
     }
+}
+
+
+function openNamesBar(ticketnumber) {
+    document.getElementById(`mitglieder ${ticketnumber}`).classList.remove('d-none');
+    document.getElementById(`bar-names-open ${ticketnumber}`).classList.add('d-none');
+    document.getElementById(`bar-names-close ${ticketnumber}`).classList.remove('d-none');
+}
+
+
+function closeNamesBar(ticketnumber) {
+    document.getElementById(`mitglieder ${ticketnumber}`).classList.add('d-none');
+    document.getElementById(`bar-names-close ${ticketnumber}`).classList.add('d-none');
+    document.getElementById(`bar-names-open ${ticketnumber}`).classList.remove('d-none');
+}
+
+
+function openEmailsBar(ticketnumber) {
+    document.getElementById(`email ${ticketnumber}`).classList.remove('d-none');
+    document.getElementById(`bar-emails-open ${ticketnumber}`).classList.add('d-none');
+    document.getElementById(`bar-emails-close ${ticketnumber}`).classList.remove('d-none');
+}
+
+
+function closeEmailsBar(ticketnumber) {
+    document.getElementById(`email ${ticketnumber}`).classList.add('d-none');
+    document.getElementById(`bar-emails-close ${ticketnumber}`).classList.add('d-none');
+    document.getElementById(`bar-emails-open ${ticketnumber}`).classList.remove('d-none');
 }
 
 
@@ -117,14 +153,43 @@ function renderBacklogTask(task, i) {
             <div class="backlog-content-container">
                 <div class="headline-assigned-to-category"> 
                     <div class="assigned-to">
-                        <span>
-                            ${task['SelectedEmployee']}
-                        </span>
-                        <b>
-                            E-mail:
-                        </b>
-                        <a class="overflow-hidden text-nowrap">
-                            ${task['SelectedEmployeeEmail']}
+                        <div class="d-flex">
+                            <b>
+                                Names:
+                            </b>
+                            <div>
+                                <svg id="bar-names-open ${task['createdAt']}" class="bar-open-button" onclick="openNamesBar(${task['createdAt']})" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                                    <!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
+                                    <path 
+                                        d="M201.4 374.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 306.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"/>
+                                </svg>
+                                <svg id="bar-names-close ${task['createdAt']}" class="bar-close-button d-none" onclick="closeNamesBar(${task['createdAt']})" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                                    <!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
+                                    <path 
+                                        d="M201.4 137.4c12.5-12.5 32.8-12.5 45.3 0l160 160c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L224 205.3 86.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l160-160z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="d-none" id="mitglieder ${task['createdAt']}">
+                        </div>
+                        <div class="d-flex">
+                            <b>
+                                Email Addresses:
+                            </b>
+                            <div>
+                                <svg id="bar-emails-open ${task['createdAt']}" class="bar-open-button" onclick="openEmailsBar(${task['createdAt']})" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                                    <!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
+                                    <path 
+                                        d="M201.4 374.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 306.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"/>
+                                </svg>
+                                <svg id="bar-emails-close ${task['createdAt']}" class="bar-close-button d-none" onclick="closeEmailsBar(${task['createdAt']})" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                                    <!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
+                                    <path 
+                                        d="M201.4 137.4c12.5-12.5 32.8-12.5 45.3 0l160 160c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L224 205.3 86.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l160-160z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <a id="email ${task['createdAt']}" class="overflow-hidden text-nowrap d-none">
                         </a>
                     </div>
                     <div class="category-backlog bg-blue">

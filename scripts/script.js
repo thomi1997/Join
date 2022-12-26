@@ -44,7 +44,6 @@ const crypt = (salt, text) => {
     const textToChars = (text) => text.split("").map((c) => c.charCodeAt(0));
     const byteHex = (n) => ("0" + Number(n).toString(16)).substr(-2);
     const applySaltToChar = (code) => textToChars(salt).reduce((a, b) => a ^ b, code);
-
     return text
         .split("")
         .map(textToChars)
@@ -80,13 +79,11 @@ const decrypt = (salt, encoded) => {
 function showAllUsers() {
     let allUsers = document.getElementById('allUsers');
     allUsers.innerHTML = "";
-
     for (let i = 0; i < users.length; i++) {
         const decryptUserName = decrypt('salt', users[i]['name']);
         const decryptEmail = decrypt('salt', users[i]['email']);
         const isAdmin = users[i]['isAdmin'];
         const isChangePassword = users[i]['changePassword'];
-
         allUsers.innerHTML += generateShowAllUsersHTML(decryptUserName, decryptEmail, i);
         adminTrue(isAdmin, i);
         passwordChanged(isChangePassword, i);
@@ -135,25 +132,50 @@ function generateShowAllUsersHTML(decryptUserName, decryptEmail, i) {
     return /*html*/ `
     <div class="flex-left underline mt-3">
         <div class=" width-225px">
-            <span><b>Username:</b><br></span> 
+            <span>
+                <b>
+                    Username:
+                </b>
+                <br>
+            </span> 
             <div class="name-flex">
-                <span>${decryptUserName}</span>
-                <span>${decryptEmail}</span>
+                <span>
+                    ${decryptUserName}
+                </span>
+                <span>
+                    ${decryptEmail}
+                </span>
             </div>
         </div>
         <div class="mb-3 width-200px">
-            <span class=""><b>Admin:</b><br></span> 
-            <span id="admin${i}"></span>
+            <span class="">
+                <b>
+                    Admin:
+                </b>
+                <br>
+            </span> 
+            <span id="admin${i}">
+            </span>
         </div>
         <div class="mb-3 width-200px">
-            <span class=""><b>Password-Change:</b><br></span> 
-            <span id="isPasswordChanged${i}"></span>
+            <span class="">
+                <b>
+                    Password-Change:
+                </b>
+                <br>
+            </span> 
+            <span id="isPasswordChanged${i}">
+            </span>
         </div>
         <div class="delete-btn-container">
-            <button onclick="changedPwInPanel(${i})" class="delete-btn-design me-2">Change</button>
+            <button onclick="changedPwInPanel(${i})" class="delete-btn-design me-2">
+                Change
+            </button>
         </div>   
         <div class="delete-btn-container">
-            <button onclick="deleteUsers(${i})" class="delete-btn-design me-2">Delete</button>
+            <button onclick="deleteUsers(${i})" class="delete-btn-design me-2">
+                Delete
+            </button>
         </div>    
  
     </div>`
@@ -172,17 +194,23 @@ async function createUser() {
     const cryptUserName = crypt('salt', userName.value);
     const cryptEmail = crypt('salt', userEmail.value);
     const cryptPassword = crypt('salt', userPassword.value);
+    adminChecked(isAdmin, cryptUserName, cryptEmail, cryptPassword);
+    blankValue(userName, userEmail, userPassword);
+}
 
 
+function adminChecked(isAdmin, cryptUserName, cryptEmail, cryptPassword) {
     if (isAdmin.checked == false) {
         noAdmin(cryptUserName, cryptEmail, cryptPassword);
-        showAlert(green, 'A new user has been created.')
-        
+        showAlert(green, 'A new user has been created.');
     } else {
         admin(cryptUserName, cryptEmail, cryptPassword);
-        showAlert(green, 'A new user was created as admin.')
+        showAlert(green, 'A new user was created as admin.');
     }
+}
 
+
+function blankValue(userName, userEmail, userPassword) {
     userName.value = "";
     userEmail.value = "";
     userPassword.value = "";
@@ -203,12 +231,11 @@ async function noAdmin(cryptUserName, cryptEmail, cryptPassword) {
         'email': cryptEmail,
         'password': cryptPassword,
         'isAdmin': false,
-        'changePassword': true
+        'changePassword': false
     }
     users.push(user);
     await backend.setItem('user', JSON.stringify(users));
 }
-
 
 
 /**
@@ -224,9 +251,8 @@ async function admin(cryptUserName, cryptEmail, cryptPassword) {
         'email': cryptEmail,
         'password': cryptPassword,
         'isAdmin': true,
-        'changePassword': true
+        'changePassword': false
     }
-
     users.push(user);
     await backend.setItem('user', JSON.stringify(users));
 }
@@ -287,27 +313,28 @@ async function showAlert(color, text) {
 function login() {
     let userName = document.getElementById('userName');
     let userPassword = document.getElementById('userPassword');
-
     for (let i = 0; i < users.length; i++) {
         const decryptUserName = decrypt('salt', users[i]['name']);
         const decryptPassword = decrypt('salt', users[i]['password']);
         const decryptEmail = decrypt('salt', users[i]['email']);
         const isAdmin = users[i]['isAdmin'];
         const changePassword = users[i]['changePassword'];
-
-        if (userName.value == decryptUserName && userPassword.value == decryptPassword && changePassword == false) {
-            isLogedIn(decryptUserName, decryptEmail, isAdmin);
-
-        } else if (userName.value == decryptUserName && userPassword.value == decryptPassword && changePassword == true) {
-            document.getElementById('loginScreen').classList.add('d-none');
-            document.getElementById('changePasswordScreen').classList.remove('d-none');
-        } else {
-            showErrorMessage();
-        }
+        isThePasswordCorrect(decryptUserName, decryptPassword, decryptEmail, isAdmin, changePassword);
     }
-
     userName.value = "";
     userPassword.value = "";
+}
+
+
+function isThePasswordCorrect(decryptUserName, decryptPassword, decryptEmail, isAdmin, changePassword) {
+    if (userName.value == decryptUserName && userPassword.value == decryptPassword && changePassword == false) {
+        isLogedIn(decryptUserName, decryptEmail, isAdmin);
+    } else if (userName.value == decryptUserName && userPassword.value == decryptPassword && changePassword == true) {
+        document.getElementById('loginScreen').classList.add('d-none');
+        document.getElementById('changePasswordScreen').classList.remove('d-none');
+    } else {
+        showErrorMessage();
+    }
 }
 
 
@@ -323,6 +350,17 @@ function isLogedIn(decryptUserName, decryptEmail, isAdmin) {
         'isAdmin': isAdmin
     }
     currentUser.push(NewcurrentUser);
+    saveToLocalStorage();
+}
+
+
+function isLogedInGast() {
+    window.location.href = "https://thomas-ketler.developerakademie.net/Gruppenarbeit-Join/board.html";
+    let gastUser = {
+        'name': "Gast",
+        'email': "gast@fake.de"
+    }
+    currentUser.push(gastUser);
     saveToLocalStorage();
 }
 
@@ -349,16 +387,26 @@ async function changePassword() {
     let userPassword = document.getElementById('oldPassword');
     let newUserPassword = document.getElementById('newUserPassword');
     const cryptPassword = crypt('salt', newUserPassword.value);
-
     for (let i = 0; i < users.length; i++) {
         const decryptUserName = decrypt('salt', users[i]['name']);
         const decryptPassword = decrypt('salt', users[i]['password']);
-
-        if (userName.value == decryptUserName && userPassword.value == decryptPassword) {
-            users[i]['password'] = cryptPassword;
-            users[i]['changePassword'] = false;
-        }
+        queryNewPassword(userName, userPassword, cryptPassword, decryptUserName, decryptPassword, i);
     }
+    saveNewPassword();
+}
+
+
+function queryNewPassword(userName, userPassword, cryptPassword, decryptUserName, decryptPassword, i) {
+    if (userName.value == decryptUserName && userPassword.value == decryptPassword) {
+        users[i]['password'] = cryptPassword;
+        users[i]['changePassword'] = false;
+    } else {
+        users[i]['changePassword'] = true;
+    }
+}
+
+
+async function saveNewPassword() {
     await backend.setItem('user', JSON.stringify(users));
     document.getElementById('loginScreen').classList.remove('d-none');
     document.getElementById('changePasswordScreen').classList.add('d-none');
@@ -374,17 +422,22 @@ function loadCurrentUser() {
     for (let i = 0; i < currentUser.length; i++) {
         const currentUserName = currentUser[i]['name'];
         const currentUserAdmin = currentUser[i]['isAdmin'];
-        if (currentUser.length > 0) {
-            document.getElementById("currentUser").innerHTML = `${currentUserName}`;
-            document.getElementById("currentUserResponsive").innerHTML = `${currentUserName}`;
-        }
-        if (currentUserName && currentUserAdmin == true) {
-            document.getElementById("adminPanel").classList.remove("d-none");
-            document.getElementById("adminPanelResponsive").classList.remove("d-none");
-        } else {
-            document.getElementById("adminPanel").classList.add("d-none");
-            document.getElementById("adminPanelResponsive").classList.add("d-none");
-        }
+        whatCurrentUser(currentUser, currentUserName, currentUserAdmin);
+    }
+}
+
+
+function whatCurrentUser(currentUser, currentUserName, currentUserAdmin) {
+    if (currentUser.length > 0) {
+        document.getElementById("currentUser").innerHTML = `${currentUserName}`;
+        document.getElementById("currentUserResponsive").innerHTML = `${currentUserName}`;
+    }
+    if (currentUserName && currentUserAdmin == true) {
+        document.getElementById("adminPanel").classList.remove("d-none");
+        document.getElementById("adminPanelResponsive").classList.remove("d-none");
+    } else {
+        document.getElementById("adminPanel").classList.add("d-none");
+        document.getElementById("adminPanelResponsive").classList.add("d-none");
     }
 }
 
@@ -406,7 +459,6 @@ function saveToLocalStorage() {
     let currentUserAsText = JSON.stringify(currentUser);
     localStorage.setItem('currentUser', currentUserAsText);
 }
-
 function loadFromLocalStorage() {
     let currentUserAsText = localStorage.getItem('currentUser');
     if (currentUserAsText) {
@@ -420,9 +472,14 @@ function loadFromLocalStorage() {
  * 
  */
 function password_show_hide() {
-    var x = document.getElementById("userPassword");
-    var show_eye = document.getElementById("show_eye");
-    var hide_eye = document.getElementById("hide_eye");
+    let x = document.getElementById("userPassword");
+    let show_eye = document.getElementById("show_eye");
+    let hide_eye = document.getElementById("hide_eye");
+    queryShowHide(x, show_eye, hide_eye);
+}
+
+
+function queryShowHide(x, show_eye) {
     hide_eye.classList.remove("d-none");
     if (x.type === "password") {
         x.type = "text";

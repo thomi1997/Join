@@ -41,9 +41,9 @@ function legacyTurn() {
  * Immediately prevents login
  * 
  */
-
+/*
 function noLogin() {
     if (currentUser.length == 0) {
         document.location.href = 'https://thomas-ketler.developerakademie.net/Gruppenarbeit-Join/index.html';
     }
-}
+}*/

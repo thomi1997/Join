@@ -46,6 +46,21 @@
 .assigned-to {
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
+}
+
+.bar-open-button {
+    fill: rgba(30, 49, 144, 0.7);
+    width: 20px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.bar-close-button {
+    fill: rgba(30, 49, 144, 0.7);
+    width: 20px;
+    margin-left: 10px;
+    cursor: pointer;
 }
 
 .category-backlog {
@@ -197,10 +212,5 @@
 
     .headline-assigned-to-category {
         flex-direction: column;
-        text-align: center;
-    }
-
-    .description-container {
-        text-align: center;
     }
 }
