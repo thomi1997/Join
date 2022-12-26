@@ -57,7 +57,7 @@
 
 /* Responsive Container */
 #responsive {
-    transform: translateX(-3000px);
+    transform: translateX(-3500px);
     transition: all 225ms ease-in-out;
 }
 
