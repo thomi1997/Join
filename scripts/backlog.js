@@ -78,45 +78,67 @@ async function saveUserOnTheBord() {
 function loadTaskToBacklog() {
     let backlog = document.getElementById('bl-content');
     backlog.innerHTML = '';
+    loadBacklogTask(backlog);
+}
+
+
+function loadBacklogTask(backlog) {
     for (let i = 0; i < allTask.length; i++) {
         let task = allTask[i];
-        let mitglieder = task['SelectedEmployee'];
-        let email = task['SelectedEmployeeEmail'];
+        let teammembers = task['SelectedEmployee'];
+        let emails = task['SelectedEmployeeEmail'];
         backlog.innerHTML += renderBacklogTask(task, i);
-        for (let j = 0; j < mitglieder.length; j++) {
-                document.getElementById(`mitglieder ${task['createdAt']}`).innerHTML += /*html*/ `<div class=""> ${mitglieder[j]} </div>`;
-        }
-        for (let k = 0; k < email.length; k++) {
-            document.getElementById(`email ${task['createdAt']}`).innerHTML += /*html*/ `<div class=""> ${email[k]} </div>`;
-        }
-        setCategoryColor(task, i);
+        parameterDistributionBacklog(task, teammembers, emails, i);
+    }
+}
+
+
+function parameterDistributionBacklog(task, teammembers, emails, i) {
+    loadTeammember(teammembers, task);
+    loadEmails(emails, task);
+    setCategoryColor(task, i);
+}
+
+
+function loadTeammember(teammembers, task) {
+    for (let j = 0; j < teammembers.length; j++) {
+        let container = document.getElementById(`teammembers ${task['createdAt']}`);
+        container.innerHTML += /*html*/ `<div class=""> ${teammembers[j]} </div>`;
+    }
+}
+
+
+function loadEmails(emails, task) {
+    for (let k = 0; k < emails.length; k++) {
+        let container = document.getElementById(`emails ${task['createdAt']}`);
+        container.innerHTML += /*html*/ `<div class=""> ${emails[k]} </div>`;
     }
 }
 
 
 function openNamesBar(ticketnumber) {
-    document.getElementById(`mitglieder ${ticketnumber}`).classList.remove('d-none');
+    document.getElementById(`teammembers ${ticketnumber}`).classList.remove('d-none');
     document.getElementById(`bar-names-open ${ticketnumber}`).classList.add('d-none');
     document.getElementById(`bar-names-close ${ticketnumber}`).classList.remove('d-none');
 }
 
 
 function closeNamesBar(ticketnumber) {
-    document.getElementById(`mitglieder ${ticketnumber}`).classList.add('d-none');
+    document.getElementById(`teammembers ${ticketnumber}`).classList.add('d-none');
     document.getElementById(`bar-names-close ${ticketnumber}`).classList.add('d-none');
     document.getElementById(`bar-names-open ${ticketnumber}`).classList.remove('d-none');
 }
 
 
 function openEmailsBar(ticketnumber) {
-    document.getElementById(`email ${ticketnumber}`).classList.remove('d-none');
+    document.getElementById(`emails ${ticketnumber}`).classList.remove('d-none');
     document.getElementById(`bar-emails-open ${ticketnumber}`).classList.add('d-none');
     document.getElementById(`bar-emails-close ${ticketnumber}`).classList.remove('d-none');
 }
 
 
 function closeEmailsBar(ticketnumber) {
-    document.getElementById(`email ${ticketnumber}`).classList.add('d-none');
+    document.getElementById(`emails ${ticketnumber}`).classList.add('d-none');
     document.getElementById(`bar-emails-close ${ticketnumber}`).classList.add('d-none');
     document.getElementById(`bar-emails-open ${ticketnumber}`).classList.remove('d-none');
 }
@@ -155,7 +177,7 @@ function renderBacklogTask(task, i) {
                     <div class="assigned-to">
                         <div class="d-flex">
                             <b>
-                                Names:
+                                Teammembers:
                             </b>
                             <div>
                                 <svg id="bar-names-open ${task['createdAt']}" class="bar-open-button" onclick="openNamesBar(${task['createdAt']})" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
@@ -170,7 +192,7 @@ function renderBacklogTask(task, i) {
                                 </svg>
                             </div>
                         </div>
-                        <div class="d-none" id="mitglieder ${task['createdAt']}">
+                        <div class="d-none" id="teammembers ${task['createdAt']}">
                         </div>
                         <div class="d-flex">
                             <b>
@@ -189,7 +211,7 @@ function renderBacklogTask(task, i) {
                                 </svg>
                             </div>
                         </div>
-                        <a id="email ${task['createdAt']}" class="overflow-hidden text-nowrap d-none">
+                        <a id="emails ${task['createdAt']}" class="overflow-hidden text-nowrap d-none">
                         </a>
                     </div>
                     <div class="category-backlog bg-blue">

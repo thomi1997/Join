@@ -49,20 +49,6 @@
     align-items: flex-start;
 }
 
-.bar-open-button {
-    fill: rgba(30, 49, 144, 0.7);
-    width: 20px;
-    margin-left: 10px;
-    cursor: pointer;
-}
-
-.bar-close-button {
-    fill: rgba(30, 49, 144, 0.7);
-    width: 20px;
-    margin-left: 10px;
-    cursor: pointer;
-}
-
 .category-backlog {
     display: flex;
     align-items: center;

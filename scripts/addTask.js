@@ -1,6 +1,6 @@
 let allTask = [];
-let SelectedEmployees = [];
-let SelectedEmployeeEmails = [];
+let selectedEmployees = [];
+let selectedEmployeeEmails = [];
 
 
 /**
@@ -22,9 +22,9 @@ function EmployeePicker() {
  * 
  */
 function SelectEmployee(i, user) {
-    let SelectedEmployee = user;
-    let SelectedEmployeeEmail = decrypt('salt', users[i]['email']);
-    selectEmployeeQuery(i, SelectedEmployee, SelectedEmployeeEmail);
+    let selectedEmployee = user;
+    let selectedEmployeeEmail = decrypt('salt', users[i]['email']);
+    selectEmployeeQuery(i, selectedEmployee, selectedEmployeeEmail);
     touchesButtonCreateTask();
     document.getElementById(`MA ${i}`).innerHTML;
     document.getElementById(`MA ${i}`).classList.toggle('Employee-selected');
@@ -37,26 +37,24 @@ function touchesButtonCreateTask() {
 }
 
 
-function selectEmployeeQuery(i, SelectedEmployee, SelectedEmployeeEmail) {
+function selectEmployeeQuery(i, selectedEmployee, selectedEmployeeEmail) {
     if (document.getElementById(`MA ${i}`).classList.contains('Employee-selected')) {
-        deleteSelectedEmployees(SelectedEmployee, SelectedEmployeeEmail);
+        deleteSelectedEmployees(selectedEmployee, selectedEmployeeEmail);
     } else {
-        pushSelectedEmployees(SelectedEmployee, SelectedEmployeeEmail);
+        pushSelectedEmployees(selectedEmployee, selectedEmployeeEmail);
     }
 }
 
 
-function deleteSelectedEmployees(SelectedEmployee, SelectedEmployeeEmail) {
-    SelectedEmployees.splice(SelectedEmployee, 1);
-    SelectedEmployeeEmails.splice(SelectedEmployeeEmail, 1);
-    console.log('delete', SelectedEmployee, SelectedEmployeeEmail);
+function deleteSelectedEmployees(selectedEmployee, selectedEmployeeEmail) {
+    selectedEmployees.splice(selectedEmployee, 1);
+    selectedEmployeeEmails.splice(selectedEmployeeEmail, 1);
 }
 
 
-function pushSelectedEmployees(SelectedEmployee, SelectedEmployeeEmail) {
-    SelectedEmployees.push(SelectedEmployee);
-    SelectedEmployeeEmails.push(SelectedEmployeeEmail);
-    console.log('push', SelectedEmployee, SelectedEmployeeEmail);
+function pushSelectedEmployees(selectedEmployee, selectedEmployeeEmail) {
+    selectedEmployees.push(selectedEmployee);
+    selectedEmployeeEmails.push(selectedEmployeeEmail);
 }
 
 
@@ -87,8 +85,8 @@ async function taskBuild(title, date, categorie, prio, description, creator, cre
         'creatorEmail': creatorEmail,
         'createdAt': new Date().getTime(),
         'state': 'todo',
-        'SelectedEmployee': SelectedEmployees,
-        'SelectedEmployeeEmail': SelectedEmployeeEmails,
+        'SelectedEmployee': selectedEmployees,
+        'SelectedEmployeeEmail': selectedEmployeeEmails,
     }
     await addTask(task);
 }

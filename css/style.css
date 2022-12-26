@@ -108,6 +108,20 @@ body {
     width: 500px;
 }
 
+.bar-open-button {
+    fill: rgba(30, 49, 144, 0.7);
+    width: 20px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.bar-close-button {
+    fill: rgba(30, 49, 144, 0.7);
+    width: 20px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
 /* Login */
 
 .img-design {

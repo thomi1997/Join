@@ -42,14 +42,24 @@ function loadAllFilter() {
     let currenInProgress = allBoardTask.filter(t => t['state'] == 'inProgress');
     let currentTesting = allBoardTask.filter(t => t['state'] == 'testing');
     let currentDone = allBoardTask.filter(t => t['state'] == 'done');
-    document.getElementById('todo').innerHTML = '';
-    document.getElementById('inProgress').innerHTML = '';
-    document.getElementById('testing').innerHTML = '';
-    document.getElementById('done').innerHTML = '';
+    createdAllTickets(currentToDo, currenInProgress, currentTesting, currentDone);
+}
+
+
+function createdAllTickets(currentToDo, currenInProgress, currentTesting, currentDone) {
+    areasBlank();
     filterTodoTask(currentToDo);
     filterInProgress(currenInProgress);
     filterTesting(currentTesting);
     filterDone(currentDone);
+}
+
+
+function areasBlank() {
+    document.getElementById('todo').innerHTML = '';
+    document.getElementById('inProgress').innerHTML = '';
+    document.getElementById('testing').innerHTML = '';
+    document.getElementById('done').innerHTML = '';
 }
 
 
@@ -69,9 +79,11 @@ function loadAllFilter() {
 function filterTodoTask(currentToDo) {
     for (let i = 0; i < currentToDo.length; i++) {
         let index = currentToDo[i];
+        let teamMembers = index['SelectedEmployee'];
         document.getElementById('todo').innerHTML += htmlTicket(i, index);
+        loadAllTeammembers(index, teamMembers);
         move(i, index);
-        toDoButtonClose(i, index);
+        inProgressClose(i, index);
         trashClose(i, index);
     }
 }
@@ -80,7 +92,9 @@ function filterTodoTask(currentToDo) {
 function filterInProgress(currenInProgress) {
     for (let i = 0; i < currenInProgress.length; i++) {
         let index = currenInProgress[i];
+        let teamMembers = index['SelectedEmployee'];
         document.getElementById('inProgress').innerHTML += htmlTicket(i, index);
+        loadAllTeammembers(index, teamMembers);
         move(i, index);
         inProgressClose(i, index);
         trashClose(i, index);
@@ -91,7 +105,9 @@ function filterInProgress(currenInProgress) {
 function filterTesting(currentTesting) {
     for (let i = 0; i < currentTesting.length; i++) {
         let index = currentTesting[i];
+        let teamMembers = index['SelectedEmployee'];
         document.getElementById('testing').innerHTML += htmlTicket(i, index);
+        loadAllTeammembers(index, teamMembers);
         move(i, index);
         testingClose(i, index);
         trashClose(i, index);
@@ -103,10 +119,20 @@ function filterTesting(currentTesting) {
 function filterDone(currentDone) {
     for (let i = 0; i < currentDone.length; i++) {
         let index = currentDone[i];
+        let teamMembers = index['SelectedEmployee'];
         document.getElementById('done').innerHTML += htmlTicket(i, index);
+        loadAllTeammembers(index, teamMembers);
         move(i, index);
-        doneClose(i, index);
+        testingClose(i, index);
         trashOpen(i, index);
+    }
+}
+
+
+function loadAllTeammembers(index, teamMembers) {
+    for (let j = 0; j < teamMembers.length; j++) {
+        let container = document.getElementById(`teamMembersBoard ${index['createdAt']}`);
+        container.innerHTML += /*html*/ `<div> ${teamMembers[j]}</div>`;
     }
 }
 
@@ -282,6 +308,20 @@ function closeMiniArea(index) {
 }
 
 
+function openNamesBarOnBoard(ticketNumber) {
+    document.getElementById(`bar-names-ticket-open ${ticketNumber}`).classList.add('d-none');
+    document.getElementById(`teamMembersBoard ${ticketNumber}`).classList.remove('d-none');
+    document.getElementById(`bar-names-ticket-close ${ticketNumber}`).classList.remove('d-none');
+}
+
+
+function closeNamesBarOnBoard(ticketNumber) {
+    document.getElementById(`bar-names-ticket-open ${ticketNumber}`).classList.remove('d-none');
+    document.getElementById(`teamMembersBoard ${ticketNumber}`).classList.add('d-none');
+    document.getElementById(`bar-names-ticket-close ${ticketNumber}`).classList.add('d-none');
+}
+
+
 /**
 * The function startdragging() fetches with the ondragstart="" method
 * on the htmlTicket() template to get the correct parameter (Index['createdAt']). 
@@ -364,10 +404,25 @@ function htmlTicket(i, index) {
                             ${index['creator']}
                         </span>
                         <span>
-                            <b>
-                                Teammembers:
-                            </b> 
-                            ${index['SelectedEmployee']}
+                            <div class="d-flex">
+                                <b>
+                                    Teammembers:
+                                </b>
+                                <div>
+                                    <svg id="bar-names-ticket-open ${index['createdAt']}" class="bar-open-button" onclick="openNamesBarOnBoard(${index['createdAt']})" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                                        <!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
+                                        <path 
+                                            d="M201.4 374.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 306.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"/>
+                                    </svg>
+                                    <svg id="bar-names-ticket-close ${index['createdAt']}" class="bar-close-button d-none" onclick="closeNamesBarOnBoard(${index['createdAt']})" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                                        <!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
+                                        <path 
+                                            d="M201.4 137.4c12.5-12.5 32.8-12.5 45.3 0l160 160c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L224 205.3 86.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l160-160z"/>
+                                    </svg>
+                                </div>
+                            </div> 
+                            <div class="d-none" id="teamMembersBoard ${index['createdAt']}">
+                            </div>
                         </span>
                     </div>
                 </div>
